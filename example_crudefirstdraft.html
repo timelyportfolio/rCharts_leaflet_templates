@@ -20,11 +20,11 @@
     
   </head>
   <body>
-    <div id='chart2e206b276b98' class='rChart leaflet'></div>  
+    <div id='chart2e20781c6df1' class='rChart leaflet'></div>  
     
     <script>
   var spec = {
- "dom": "chart2e206b276b98",
+ "dom": "chart2e20781c6df1",
 "width":            800,
 "height":            400,
 "urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -34,7 +34,6 @@
 "center": [        45.5236,       -122.675 ],
 "zoom":             13,
 "provider": "Stamen.Toner",
-"id": "chart2e206b276b98",
 "overlays": {
  "name": "motorways",
 "url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
@@ -50,7 +49,8 @@
  "attr": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
 "styleId":          22677 
 } 
-} 
+},
+"id": "chart2e20781c6df1" 
 }
 
   var map = L.map(spec.dom, spec.mapOpts)
@@ -66,24 +66,18 @@
     map.addLayer(baseLayers.baseLayer);
     
     if (spec.baselayers) {
-      if(spec.baselayers.length){
-        spec.baselayers.forEach(function(baselayer){
-          baseLayers[baselayer.url] = L.tileLayer(baselayer.name,spec.baselayer.opts)
-        })
-      } else {
-        baseLayers[spec.baselayers.name] = L.tileLayer(spec.baselayers.url,spec.baselayers.opts)
-      }
+      if (!(spec.baselayers.length)){ spec.baselayers = [spec.baselayers]; };
+      spec.baselayers.forEach(function(baselayer){
+        baseLayers[baselayer.name] = L.tileLayer(baselayer.url,baselayer.opts)
+      })
     }
     
     var overlays = {};
     if(spec.overlays) {
-      if(spec.overlays.length) {
-        spec.overlays.forEach(function(overlay){
-          overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
-        })
-      } else {
-        overlays[spec.overlays.name] = L.tileLayer(spec.overlays.url,spec.overlays.opts)
-      }    
+      if (!(spec.overlays.length)) { spec.overlays = [spec.overlays]; };
+      spec.overlays.forEach(function(overlay){
+        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
+      })
     }
     
      
