@@ -17,24 +17,18 @@
     map.addLayer(baseLayers.baseLayer);
     
     if (spec.baselayers) {
-      if(spec.baselayers.length){
-        spec.baselayers.forEach(function(baselayer){
-          baseLayers[baselayer.url] = L.tileLayer(baselayer.name,spec.baselayer.opts)
-        })
-      } else {
-        baseLayers[spec.baselayers.name] = L.tileLayer(spec.baselayers.url,spec.baselayers.opts)
-      }
+      if (!(spec.baselayers.length)){ spec.baselayers = [spec.baselayers]; };
+      spec.baselayers.forEach(function(baselayer){
+        baseLayers[baselayer.name] = L.tileLayer(baselayer.url,baselayer.opts)
+      })
     }
     
     var overlays = {};
     if(spec.overlays) {
-      if(spec.overlays.length) {
-        spec.overlays.forEach(function(overlay){
-          overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
-        })
-      } else {
-        overlays[spec.overlays.name] = L.tileLayer(spec.overlays.url,spec.overlays.opts)
-      }    
+      if (!(spec.overlays.length)) { spec.overlays = [spec.overlays]; };
+      spec.overlays.forEach(function(overlay){
+        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
+      })
     }
     
      
