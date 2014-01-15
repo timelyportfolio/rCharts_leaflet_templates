@@ -1,0 +1,130 @@
+<!doctype HTML>
+<meta charset = 'utf-8'>
+<html>
+  <head>
+    <link rel='stylesheet' href='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css'>
+    
+    <script src='http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js' type='text/javascript'></script>
+    <script src='https://rawgithub.com/leaflet-extras/leaflet-providers/gh-pages/leaflet-providers.js' type='text/javascript'></script>
+    <script src='http://harrywood.co.uk/maps/examples/leaflet/leaflet-plugins/layer/vector/KML.js' type='text/javascript'></script>
+    
+    <style>
+    .rChart {
+      display: block;
+      margin-left: auto; 
+      margin-right: auto;
+      width: 800px;
+      height: 400px;
+    }  
+    </style>
+    
+  </head>
+  <body>
+    <div id='chart19a8365c64ba' class='rChart leaflet'></div>  
+    
+    <script>
+  var spec = {
+ "dom": "chart19a8365c64ba",
+"width":            800,
+"height":            400,
+"urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+"layerOpts": {
+ "attribution": "Map data<a href=\"http://openstreetmap.org\">OpenStreetMap</a>\n         contributors, Imagery<a href=\"http://mapbox.com\">MapBox</a>" 
+},
+"center": [        45.5236,       -122.675 ],
+"zoom":             13,
+"provider": "Stamen.Toner",
+"id": "chart19a8365c64ba",
+"overlays": {
+ "name": "motorways",
+"url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
+"opts": {
+ "attr": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
+"styleId":          46561 
+} 
+},
+"baselayers": {
+ "name": "midnight",
+"url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
+"opts": {
+ "attr": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
+"styleId":          22677 
+} 
+},
+"marker": [
+ {
+ "marker": [
+        45.5244,
+     -122.6699 
+],
+"addTo": "#! map !#",
+"bindPopup": "The Waterfront" 
+} 
+] 
+}
+
+  var map = L.map(spec.dom, spec.mapOpts)
+  
+    map.setView(spec.center, spec.zoom);
+    var baseLayers = {};
+    if (spec.provider){
+      baseLayers.baseLayer = L.tileLayer.provider(spec.provider)    
+    } else {
+  	  baseLayers.baseLayer = L.tileLayer(spec.urlTemplate, spec.layerOpts);
+    }
+    
+    map.addLayer(baseLayers.baseLayer);
+    
+    if (spec.baselayers) {
+      if (!(spec.baselayers.length)){ spec.baselayers = [spec.baselayers]; };
+      spec.baselayers.forEach(function(baselayer){
+        baseLayers[baselayer.name] = L.tileLayer(baselayer.url,baselayer.opts)
+      })
+    }
+    
+    var overlays = {};
+    if(spec.overlays) {
+      if (!(spec.overlays.length)) { spec.overlays = [spec.overlays]; };
+      spec.overlays.forEach(function(overlay){
+        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
+      })
+    }
+    
+     
+    // market whisker for toChain was here
+    //marker uses to Chain so hard to intercept but guessing
+    //we want markers to appear as a toggle overlay in the layer groups
+    //so changed Leaflet.R to send data
+    var markers = [];
+    if(!(typeof spec.marker==="undefined")) {
+      if(!(spec.marker.length)) {spec.marker = [spec.marker];};
+      spec.marker.forEach(function(m,i){
+        markers.push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
+      });
+      markers = L.layerGroup(markers);
+      overlays.markers = markers;
+    }
+    
+    L.control.layers(baseLayers, overlays).addTo(map); 
+    
+    
+    
+    
+    if (spec.circle2){
+      for (var c in spec.circle2){
+        var circle = L.circle(c.center, c.radius, c.opts)
+         .addTo(map);
+      }
+    }
+    
+    
+    
+    
+    
+   
+   
+   
+</script>
+    
+  </body>
+</html>
