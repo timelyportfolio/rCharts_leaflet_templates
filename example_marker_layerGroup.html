@@ -20,11 +20,11 @@
     
   </head>
   <body>
-    <div id='chart19a8365c64ba' class='rChart leaflet'></div>  
+    <div id='chart271c3f673eac' class='rChart leaflet'></div>  
     
     <script>
   var spec = {
- "dom": "chart19a8365c64ba",
+ "dom": "chart271c3f673eac",
 "width":            800,
 "height":            400,
 "urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -34,7 +34,26 @@
 "center": [        45.5236,       -122.675 ],
 "zoom":             13,
 "provider": "Stamen.Toner",
-"id": "chart19a8365c64ba",
+"marker": [
+ {
+ "marker": [
+        45.5244,
+     -122.6699 
+],
+"addTo": "#! map !#",
+"bindPopup": "The Waterfront",
+"group": "A" 
+},
+{
+ "marker": [
+        45.5215,
+     -122.6261 
+],
+"addTo": "#! map !#",
+"bindPopup": "Laurelhurst Park",
+"group": "B" 
+} 
+],
 "overlays": {
  "name": "motorways",
 "url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
@@ -51,16 +70,7 @@
 "styleId":          22677 
 } 
 },
-"marker": [
- {
- "marker": [
-        45.5244,
-     -122.6699 
-],
-"addTo": "#! map !#",
-"bindPopup": "The Waterfront" 
-} 
-] 
+"id": "chart271c3f673eac" 
 }
 
   var map = L.map(spec.dom, spec.mapOpts)
@@ -95,14 +105,19 @@
     //marker uses to Chain so hard to intercept but guessing
     //we want markers to appear as a toggle overlay in the layer groups
     //so changed Leaflet.R to send data
-    var markers = [];
+    var markers = {};
     if(!(typeof spec.marker==="undefined")) {
       if(!(spec.marker.length)) {spec.marker = [spec.marker];};
       spec.marker.forEach(function(m,i){
-        markers.push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
+        if (!(m.group)) m.group = "markers";
+        if (!(markers[m.group])) markers[m.group] = [];
+        markers[m.group].push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
       });
-      markers = L.layerGroup(markers);
-      overlays.markers = markers;
+      
+      for(var key in markers) {
+       var lg = L.layerGroup(markers[key]);
+       overlays[key] = lg;
+      }
     }
     
     L.control.layers(baseLayers, overlays).addTo(map); 

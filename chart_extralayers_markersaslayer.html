@@ -36,14 +36,19 @@
     //marker uses to Chain so hard to intercept but guessing
     //we want markers to appear as a toggle overlay in the layer groups
     //so changed Leaflet.R to send data
-    var markers = [];
+    var markers = {};
     if(!(typeof spec.marker==="undefined")) {
       if(!(spec.marker.length)) {spec.marker = [spec.marker];};
       spec.marker.forEach(function(m,i){
-        markers.push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
+        if (!(m.group)) m.group = "markers";
+        if (!(markers[m.group])) markers[m.group] = [];
+        markers[m.group].push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
       });
-      markers = L.layerGroup(markers);
-      overlays.markers = markers;
+      
+      for(var key in markers) {
+       var lg = L.layerGroup(markers[key]);
+       overlays[key] = lg;
+      }
     }
     
     L.control.layers(baseLayers, overlays).addTo(map); 

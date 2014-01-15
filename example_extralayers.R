@@ -7,9 +7,14 @@ map2$setView(c(45.5236, -122.6750), 13)
 map2$tileLayer(provider = 'Stamen.Toner')
 map2$marker(
   c(45.5244, -122.6699),
-  bindPopup = 'The Waterfront'
+  bindPopup = 'The Waterfront',
+  group = "A"
 )
-map2$circle(c(45.5215, -122.6261), radius = 500, bindPopup = 'Laurelhurst Park')
+map2$marker(
+  c(45.5215, -122.6261),
+  bindPopup = 'Laurelhurst Park',
+  group = "B"
+)
 
 
 map2$templates$script = "http://timelyportfolio.github.io/rCharts_leaflet_templates/chart_extralayers.html"
@@ -42,6 +47,7 @@ map2$params$baselayers = list(
 
 #then using same map2
 map2$templates$script = "http://timelyportfolio.github.io/rCharts_leaflet_templates/chart_extralayers_markersaslayer.html"
+map2$templates$script = "./chart_extralayers_markersaslayer.html"
 map2
 
 map2$save("example_marker_layerGroup.html",cdn=T)
