@@ -47,7 +47,7 @@ map2$params$baselayers = list(
 
 #then using same map2
 map2$templates$script = "http://timelyportfolio.github.io/rCharts_leaflet_templates/chart_extralayers_markersaslayer.html"
-map2$templates$script = "./chart_extralayers_markersaslayer.html"
+#map2$templates$script = "./chart_extralayers_markersaslayer.html"
 map2
 
 map2$save("example_marker_layerGroup.html",cdn=T)

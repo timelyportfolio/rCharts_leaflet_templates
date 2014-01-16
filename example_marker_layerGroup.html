@@ -20,11 +20,11 @@
     
   </head>
   <body>
-    <div id='chart271c3f673eac' class='rChart leaflet'></div>  
+    <div id='chart233c67533ddc' class='rChart leaflet'></div>  
     
     <script>
   var spec = {
- "dom": "chart271c3f673eac",
+ "dom": "chart233c67533ddc",
 "width":            800,
 "height":            400,
 "urlTemplate": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
@@ -58,7 +58,7 @@
  "name": "motorways",
 "url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
 "opts": {
- "attr": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
+ "attribution": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
 "styleId":          46561 
 } 
 },
@@ -66,11 +66,11 @@
  "name": "midnight",
 "url": "http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png",
 "opts": {
- "attr": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
+ "attribution": "Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade",
 "styleId":          22677 
 } 
 },
-"id": "chart271c3f673eac" 
+"id": "chart233c67533ddc" 
 }
 
   var map = L.map(spec.dom, spec.mapOpts)
@@ -96,7 +96,8 @@
     if(spec.overlays) {
       if (!(spec.overlays.length)) { spec.overlays = [spec.overlays]; };
       spec.overlays.forEach(function(overlay){
-        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
+        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts);
+        map.addLayer(overlays[overlay.name]);
       })
     }
     
@@ -112,11 +113,13 @@
         if (!(m.group)) m.group = "markers";
         if (!(markers[m.group])) markers[m.group] = [];
         markers[m.group].push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
+        
       });
       
       for(var key in markers) {
        var lg = L.layerGroup(markers[key]);
        overlays[key] = lg;
+       map.addLayer(lg);
       }
     }
     
