@@ -27,7 +27,8 @@
     if(spec.overlays) {
       if (!(spec.overlays.length)) { spec.overlays = [spec.overlays]; };
       spec.overlays.forEach(function(overlay){
-        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts)
+        overlays[overlay.name] = L.tileLayer(overlay.url,overlay.opts);
+        map.addLayer(overlays[overlay.name]);
       })
     }
     
@@ -43,11 +44,13 @@
         if (!(m.group)) m.group = "markers";
         if (!(markers[m.group])) markers[m.group] = [];
         markers[m.group].push(L.marker([m.marker[0],m.marker[1]]).bindPopup(m.bindPopup));
+        
       });
       
       for(var key in markers) {
        var lg = L.layerGroup(markers[key]);
        overlays[key] = lg;
+       map.addLayer(lg);
       }
     }
     
